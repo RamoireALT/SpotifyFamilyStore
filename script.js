@@ -9,6 +9,15 @@ document.getElementById('duration-select').addEventListener('change', function(e
     updatePrice(e.target.value);
 });
 
+function connectSpotify() {
+  const clientId = 'YOUR_SPOTIFY_CLIENT_ID'; // Replace with your real Client ID
+  const redirectUri = 'http://localhost:5500/callback.html'; // Or your deployed URI
+  const scope = 'user-read-email';
+
+  const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+  window.location.href = url;
+}
+
 // Update the prices based on selected duration
 function updatePrice(duration) {
     const originalPriceElement = document.querySelector('.original-price');
