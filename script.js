@@ -44,6 +44,13 @@ window.addEventListener('load', () => {
       html += premium ? "🔰 Má Spotify Premium" : "❌ Nemá Spotify Premium";
 
       document.getElementById('spotify-status').innerHTML = html;
+
+      // Update button to "Propojeno"
+      const btn = document.getElementById('spotify-connect-btn');
+      btn.textContent = '✅ Propojeno';
+      btn.disabled = true;
+      btn.style.backgroundColor = '#333';
+      btn.style.cursor = 'default';
     })
     .catch(() => {
       document.getElementById('spotify-status').textContent = 'Nepodařilo se načíst profil.';
