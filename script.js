@@ -10,10 +10,11 @@ document.getElementById('duration-select').addEventListener('change', function(e
 });
 
 function connectSpotify() {
-  const clientId = '387bba2790e44e6b8f0277c94fa11a9e'; // Replace with your Client ID
-  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/'; // Redirect back to your main site
-  const scope = 'user-read-email user-read-private';
+  const clientId = '387bba2790e44e6b8f0277c94fa11a9e'; // Replace with your actual Spotify Client ID
+  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/'; // Your deployed site URL
+  const scope = 'user-read-email user-read-private user-library-read user-read-playback-state user-read-birthdate user-library-modify';
 
+  // Redirect to Spotify authorization page
   const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
   window.location.href = url;
 }
@@ -28,6 +29,7 @@ window.addEventListener('load', () => {
     sessionStorage.setItem('spotify_token', token);
     history.replaceState(null, null, window.location.pathname); // Clean up URL
 
+    // Fetch user profile info after authentication
     fetch('https://api.spotify.com/v1/me', {
       headers: { Authorization: `Bearer ${token}` }
     })
