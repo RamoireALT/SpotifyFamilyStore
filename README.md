@@ -8,3 +8,5 @@
 - ?
 ## Callback.html
 - ?
+## SessionStorage
+- ?
