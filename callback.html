@@ -28,18 +28,43 @@
 <body>
   <div class="message" id="status">Zpracovávám připojení k Spotify...</div>
 
-  <script>
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const accessToken = params.get('access_token');
+<script>
+  const hash = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
+  const accessToken = params.get('access_token');
 
-    if (accessToken) {
-      document.getElementById('status').textContent = 'Spotify účet byl úspěšně připojen!';
-      // Optional: save token temporarily for use in your app (not in database)
-      // sessionStorage.setItem('spotify_token', accessToken);
-    } else {
-      document.getElementById('status').textContent = 'Nepodařilo se připojit Spotify účet.';
-    }
-  </script>
+  async function getUserProfile(token) {
+    const response = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const data = await response.json();
+    return data;
+  }
+
+  if (accessToken) {
+    sessionStorage.setItem('spotify_token', accessToken);
+
+    getUserProfile(accessToken).then(user => {
+      const name = user.display_name || "Neznámý uživatel";
+      const premium = user.product === "premium";
+      const image = user.images?.[0]?.url;
+
+      let html = `<strong>${name}</strong><br/>`;
+      if (image) {
+        html = `<img src="${image}" alt="Profilový obrázek" style="width:100px;border-radius:50%;margin-bottom:1rem;"><br/>` + html;
+      }
+      html += premium ? "🔰 Má Spotify Premium" : "❌ Nemá Spotify Premium";
+
+      document.getElementById('status').innerHTML = html;
+    }).catch(() => {
+      document.getElementById('status').textContent = 'Nepodařilo se načíst profil.';
+    });
+  } else {
+    document.getElementById('status').textContent = 'Nepodařilo se připojit Spotify účet.';
+  }
+</script>
+
 </body>
 </html>
