@@ -10,13 +10,46 @@ document.getElementById('duration-select').addEventListener('change', function(e
 });
 
 function connectSpotify() {
-  const clientId = 'YOUR_SPOTIFY_CLIENT_ID'; // Replace with your real Client ID
-  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/'; // Or your deployed URI
-  const scope = 'user-read-email';
+  const clientId = 'YOUR_SPOTIFY_CLIENT_ID'; // Replace with your Client ID
+  const redirectUri = window.location.origin + '/'; // Redirect back to your main site
+  const scope = 'user-read-email user-read-private';
 
   const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
   window.location.href = url;
 }
+
+// Handle redirect after Spotify login
+window.addEventListener('load', () => {
+  const hash = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
+  const token = params.get('access_token');
+
+  if (token) {
+    sessionStorage.setItem('spotify_token', token);
+    history.replaceState(null, null, window.location.pathname); // Clean up URL
+
+    fetch('https://api.spotify.com/v1/me', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(user => {
+      const name = user.display_name || "Neznámý uživatel";
+      const premium = user.product === "premium";
+      const image = user.images?.[0]?.url;
+
+      let html = `<strong style="font-size:1.3rem">${name}</strong><br/>`;
+      if (image) {
+        html = `<img src="${image}" alt="Profilový obrázek" style="width:100px;border-radius:50%;margin-bottom:1rem;"><br/>` + html;
+      }
+      html += premium ? "🔰 Má Spotify Premium" : "❌ Nemá Spotify Premium";
+
+      document.getElementById('spotify-status').innerHTML = html;
+    })
+    .catch(() => {
+      document.getElementById('spotify-status').textContent = 'Nepodařilo se načíst profil.';
+    });
+  }
+});
 
 // Update the prices based on selected duration
 function updatePrice(duration) {
