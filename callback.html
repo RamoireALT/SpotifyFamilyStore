@@ -1,1 +1,45 @@
-[]
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Připojeno k Spotify</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .message {
+      background-color: #1db954;
+      color: #000;
+      padding: 1.2rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="message" id="status">Zpracovávám připojení k Spotify...</div>
+
+  <script>
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const accessToken = params.get('access_token');
+
+    if (accessToken) {
+      document.getElementById('status').textContent = 'Spotify účet byl úspěšně připojen!';
+      // Optional: save token temporarily for use in your app (not in database)
+      // sessionStorage.setItem('spotify_token', accessToken);
+    } else {
+      document.getElementById('status').textContent = 'Nepodařilo se připojit Spotify účet.';
+    }
+  </script>
+</body>
+</html>
