@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spotify Family Obchod</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    nav {
+      background-color: #121212;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 15px 0;
+      font-size: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #1DB954;
+    }
+
+    header {
+      background-color: #1DB954;
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8em;
+      color: white;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 100px auto;
+      padding: 30px;
+      background-color: #2b2b2b;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      text-align: center;
+      color: #1DB954;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #3a3a3a;
+      color: #fff;
+      outline: none;
+    }
+
+    .price-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      font-size: 18px;
+    }
+
+    .original-price {
+      font-weight: bold;
+      color: white;
+    }
+
+    .strike-through {
+      text-decoration: line-through;
+      color: #888;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #1DB954;
+      font-size: 20px;
+    }
+
+    .pay-button {
+      display: block;
+      width: 100%;
+      margin-top: 30px;
+      padding: 14px;
+      background-color: #1DB954;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .pay-button:hover {
+      background-color: #169c45;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 150px auto;
+      padding: 30px;
+      background-color: #2b2b2b;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section h3 {
+      color: #1DB954;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    section p, section a {
+      font-size: 16px;
+      color: #ddd;
+      line-height: 1.6;
+    }
+
+    footer {
+      margin-top: 50px;
+      text-align: center;
+      padding: 20px;
+      background-color: #1DB954;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#premium">Premium</a>
+    <a href="#profil">Profil</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+
+  <header>
+    <h1>Spotify Family Předplatné</h1>
+  </header>
+
+  <div class="container" id="premium">
+    <h2>Vyber si plán</h2>
+    <label for="duration-select">Doba předplatného:</label>
+    <select id="duration-select">
+      <option value="1">1 měsíc - 65 Kč</option>
+      <option value="3">3 měsíce - 180 Kč</option>
+      <option value="6">6 měsíců - 360 Kč</option>
+      <option value="9">9 měsíců - 540 Kč</option>
+      <option value="12">12 měsíců - 650 Kč</option>
+    </select>
+
+    <div class="price-section">
+      <span class="original-price" id="original-price">65 Kč</span>
+      <span class="price" id="sale-price" style="display: none;">65 Kč</span>
+    </div>
+
+    <button class="pay-button">Zaplatit</button>
+  </div>
+
+  <section id="profil">
+    <h3>Profil uživatele</h3>
+    <p>Zde se brzy budeš moct přihlásit pomocí svého Spotify účtu. Tím nám usnadníš přiřazení platby k účtu.</p>
+    <p><strong>Funkce přihlášení přes Spotify bude brzy dostupná.</strong></p>
+  </section>
+
+  <section id="kontakt">
+    <h3>Kontakt</h3>
+    <p>📷 Instagram: <a href="https://instagram.com/tvoje_uzivatelske_jmeno" target="_blank">@tvoje_uzivatelske_jmeno</a></p>
+    <p>📣 Instagram skupina: <a href="https://instagram.com/groupinvite" target="_blank">Klikni zde pro připojení</a></p>
+    <p>📞 Telefon: +420 123 456 789</p>
+    <p>✉️ Email: spotifyfamily@tvojefirma.cz</p>
+  </section>
+
+  <footer>
+    &copy; 2025 Spotify Family Obchod. Všechna práva vyhrazena.
+  </footer>
+
+  <script>
+    const durationSelect = document.getElementById('duration-select');
+    const originalPriceEl = document.getElementById('original-price');
+    const salePriceEl = document.getElementById('sale-price');
+
+    const originalPrices = {
+      "1": 65,
+      "3": 195,
+      "6": 390,
+      "9": 585,
+      "12": 780
+    };
+
+    const discountedPrices = {
+      "1": 65,
+      "3": 180,
+      "6": 360,
+      "9": 540,
+      "12": 650
+    };
+
+    function updatePrices() {
+      const value = durationSelect.value;
+
+      if (value === "1") {
+        originalPriceEl.textContent = `${discountedPrices[value]} Kč`;
+        originalPriceEl.classList.remove('strike-through');
+        salePriceEl.style.display = 'none';
+      } else {
+        originalPriceEl.textContent = `${originalPrices[value]} Kč`;
+        originalPriceEl.classList.add('strike-through');
+        salePriceEl.textContent = `${discountedPrices[value]} Kč`;
+        salePriceEl.style.display = 'inline';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updatePrices();
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          } else {
+            entry.target.classList.remove('visible');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      document.querySelectorAll('.container, section').forEach(el => {
+        observer.observe(el);
+      });
+    });
+
+    durationSelect.addEventListener('change', updatePrices);
+  </script>
+</body>
+</html>
