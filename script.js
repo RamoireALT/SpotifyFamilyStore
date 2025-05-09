@@ -9,27 +9,28 @@ document.getElementById('duration-select').addEventListener('change', function(e
     updatePrice(e.target.value);
 });
 
+// Function to initiate Spotify account connection
 function connectSpotify() {
   const clientId = '387bba2790e44e6b8f0277c94fa11a9e'; // Replace with your actual Spotify Client ID
-  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/'; // Your deployed site URL
-  const scope = 'user-read-email user-read-private user-library-read user-read-playback-state user-read-birthdate user-library-modify';
+  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/'; // Your GitHub Pages URL
+  const scope = 'user-read-email user-read-private';
 
-  // Redirect to Spotify authorization page
+  // Redirect user to Spotify login
   const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
   window.location.href = url;
 }
 
-// Handle redirect after Spotify login
+// Handle the redirect after Spotify login
 window.addEventListener('load', () => {
   const hash = window.location.hash.substring(1);
   const params = new URLSearchParams(hash);
   const token = params.get('access_token');
 
   if (token) {
-    sessionStorage.setItem('spotify_token', token);
-    history.replaceState(null, null, window.location.pathname); // Clean up URL
+    sessionStorage.setItem('spotify_token', token);  // Store token temporarily
+    history.replaceState(null, null, window.location.pathname);  // Clean up the URL
 
-    // Fetch user profile info after authentication
+    // Fetch the user profile
     fetch('https://api.spotify.com/v1/me', {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -47,12 +48,12 @@ window.addEventListener('load', () => {
 
       document.getElementById('spotify-status').innerHTML = html;
 
-      // Update button to "Propojeno"
+      // Update the button text after connection
       const btn = document.getElementById('spotify-connect-btn');
       btn.textContent = '✅ Propojeno';
-      btn.disabled = true;
-      btn.style.backgroundColor = '#333';
-      btn.style.cursor = 'default';
+      btn.disabled = true;  // Disable the button to prevent further clicks
+      btn.style.backgroundColor = '#333';  // Change the button color
+      btn.style.cursor = 'default';  // Make the cursor not clickable
     })
     .catch(() => {
       document.getElementById('spotify-status').textContent = 'Nepodařilo se načíst profil.';
