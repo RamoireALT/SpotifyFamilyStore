@@ -183,3 +183,7 @@ footer {
   background-color: #1ed760;
   transform: scale(1.05);
 }
+
+.spotify-connect:disabled {
+  opacity: 0.7;
+}
