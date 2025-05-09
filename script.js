@@ -10,7 +10,7 @@ document.getElementById('duration-select').addEventListener('change', function(e
 });
 
 function connectSpotify() {
-  const clientId = 'YOUR_SPOTIFY_CLIENT_ID'; // Replace with your Client ID
+  const clientId = '387bba2790e44e6b8f0277c94fa11a9e'; // Replace with your Client ID
   const redirectUri = window.location.origin + '/'; // Redirect back to your main site
   const scope = 'user-read-email user-read-private';
 
