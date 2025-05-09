@@ -11,7 +11,7 @@ document.getElementById('duration-select').addEventListener('change', function(e
 
 function connectSpotify() {
   const clientId = 'YOUR_SPOTIFY_CLIENT_ID'; // Replace with your real Client ID
-  const redirectUri = 'http://localhost:5500/callback.html'; // Or your deployed URI
+  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/'; // Or your deployed URI
   const scope = 'user-read-email';
 
   const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
