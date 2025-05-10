@@ -201,10 +201,15 @@
 
   <!-- Profil Section -->
   <section id="profil" class="fade-section">
-    <h2>Tvůj Profil</h2>
-    <p>Připoj svůj Spotify účet pro správu předplatného.</p>
-    <button id="spotify-connect-btn" class="btn spotify-connect" onclick="connectSpotify()">Propojit Spotify</button>
-    <div id="spotify-status" style="margin-top: 2rem;"></div>
+    <h2 class="section-title">Tvůj Profil</h2>
+    <div class="profile-card" id="profile-card">
+      <button id="spotify-connect-btn" class="btn spotify-connect" onclick="connectSpotify()">Propojit Spotify</button>
+      <div id="spotify-profile" class="profile-info" style="display:none;">
+        <img id="spotify-avatar" src="" alt="Profilový obrázek" class="profile-avatar">
+        <h3 id="spotify-name"></h3>
+        <span id="spotify-status" class="badge"></span>
+      </div>
+    </div>
   </section>
 
 
