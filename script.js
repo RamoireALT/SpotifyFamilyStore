@@ -11,52 +11,45 @@ document.getElementById('duration-select').addEventListener('change', function(e
 
 // Function to initiate Spotify account connection
 function connectSpotify() {
-  const clientId = '387bba2790e44e6b8f0277c94fa11a9e'; // Replace with your actual Spotify Client ID
-  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/'; // Your GitHub Pages URL
+  const clientId = '387bba2790e44e6b8f0277c94fa11a9e'; // Replace with real ID
+  const redirectUri = 'https://ramoirealt.github.io/SpotifyFamilyStore/';
   const scope = 'user-read-email user-read-private';
 
-  // Redirect user to Spotify login
   const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
   window.location.href = url;
 }
 
-// Handle the redirect after Spotify login
 window.addEventListener('load', () => {
   const hash = window.location.hash.substring(1);
   const params = new URLSearchParams(hash);
   const token = params.get('access_token');
 
   if (token) {
-    sessionStorage.setItem('spotify_token', token);  // Store token temporarily
-    history.replaceState(null, null, window.location.pathname);  // Clean up the URL
+    sessionStorage.setItem('spotify_token', token);
+    history.replaceState(null, null, window.location.pathname);
 
-    // Fetch the user profile
     fetch('https://api.spotify.com/v1/me', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
     .then(user => {
+      document.getElementById('spotify-connect-btn').textContent = '✅ Propojeno';
+      document.getElementById('spotify-connect-btn').disabled = true;
+
       const name = user.display_name || "Neznámý uživatel";
       const premium = user.product === "premium";
-      const image = user.images?.[0]?.url;
+      const image = user.images?.[0]?.url || "";
 
-      let html = `<strong style="font-size:1.3rem">${name}</strong><br/>`;
-      if (image) {
-        html = `<img src="${image}" alt="Profilový obrázek" style="width:100px;border-radius:50%;margin-bottom:1rem;"><br/>` + html;
-      }
-      html += premium ? "🔰 Má Spotify Premium" : "❌ Nemá Spotify Premium";
+      document.getElementById('spotify-profile').style.display = 'block';
+      document.getElementById('spotify-avatar').src = image;
+      document.getElementById('spotify-name').textContent = name;
 
-      document.getElementById('spotify-status').innerHTML = html;
-
-      // Update the button text after connection
-      const btn = document.getElementById('spotify-connect-btn');
-      btn.textContent = '✅ Propojeno';
-      btn.disabled = true;  // Disable the button to prevent further clicks
-      btn.style.backgroundColor = '#333';  // Change the button color
-      btn.style.cursor = 'default';  // Make the cursor not clickable
+      const badge = document.getElementById('spotify-status');
+      badge.textContent = premium ? "Spotify Premium" : "Spotify Free";
+      badge.classList.add(premium ? "premium" : "free");
     })
     .catch(() => {
-      document.getElementById('spotify-status').textContent = 'Nepodařilo se načíst profil.';
+      alert('Chyba při načítání profilu Spotify.');
     });
   }
 });
